@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<header class="bg-light-primary">
+    <div class="container py-5 px-3">
+        <div class="justify-content-start row">
+            <div class="col-12">
+                <h1 class="fw-700 mb-3">{{ terms.page_title }}</h1>
+                <p class="fw-600">Last Update: {{ terms.effective_date }}</p>
+                <p>{{ terms.intro_paragraph|safe }}</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container my-4 px-3">
+    <div class="row g-3 justify-content-between">
+        <aside class="col-sm-12 col-lg-3 pt-4 order-lg-2">
+            <div class="position-sticky" style="top: 6rem;">
+                <h4 class="mb-3">Terms Overview</h4>
+                <ol class="list-styled text-muted small toc">
+                    <li><a href="#member-eligibility" class="text-muted hover-underline">Member Eligibility</a></li>
+                    <li><a href="#membership-fees" class="text-muted hover-underline">Membership Fees</a></li>
+                    <li><a href="#code-of-conduct" class="text-muted hover-underline">Code of Conduct</a></li>
+                    <li><a href="#use-of-services" class="text-muted hover-underline">Use of Services</a></li>
+                    <li><a href="#payment-refund" class="text-muted hover-underline">Payments & Refunds</a></li>
+                    <li><a href="#events-participation" class="text-muted hover-underline">Events Participation</a></li>
+                    <li><a href="#intellectual-property" class="text-muted hover-underline">Intellectual Property</a></li>
+                    <li><a href="#limitation-liability" class="text-muted hover-underline">Limitation of Liability</a></li>
+                    <li><a href="#updates-to-terms" class="text-muted hover-underline">Updates to Terms</a></li>
+                    <li><a href="#contact-us" class="text-muted hover-underline">Contact Us</a></li>
+                </ol>
+            </div>
+        </aside>
+        <div class="col-sm-12 col-lg-9 order-lg-1">
+            <div class="row py-5" id="member-eligibility">
+                <div class="col-12">
+                    <h2 class="my-4">{{ terms.member_eligibility_title }}</h2>
+                    <p>{{ terms.member_eligibility }}</p>
+                </div>
+            </div>
+        <hr>
+        <div class="row py-5" id="membership-fees">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.membership_fees_title }}</h2>
+                <p>{{ terms.membership_fees|safe }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="code-of-conduct">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.code_of_conduct_title }}</h2>
+                <p>{{ terms.code_of_conduct_intro }}</p>
+                <ul>
+                    {% for item in code_of_conduct_list %}
+                    <li class="mb-1">{{ item|safe }}</li>
+                    {% endfor %}
+                </ul>
+                <p>{{ terms.code_of_conduct_outro }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="use-of-services">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.user_of_services_title }}</h2>
+                <p>{{ terms.user_of_services_intro }}</p>
+                <ul>
+                    {% for item in user_of_services_list %}
+                    <li class="mb-1">{{ item|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="payment-refund">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.payments_refunds_title }}</h2>
+                <p>{{ terms.payments_refunds_paragraph|linebreaks }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="events-participation">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.events_participation_title }}</h2>
+                <p>{{ terms.events_participation_intro }}</p>
+                <ul>
+                    {% for item in events_participation_list %}
+                    <li class="mb-1">{{ item|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="intellectual-property">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.intellectual_property_title }}</h2>
+                <p>{{ terms.intellectual_property|linebreaks }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="limitation-liability">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.limitation_liability_title }}</h2>
+                <p>{{ terms.limitation_liability_intro }}</p>
+                <ul>
+                    {% for item in limitation_liability_details_list %}
+                    <li class="mb-1">{{ item|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="updates-to-terms">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.updates_to_terms_title }}</h2>
+                <p>{{ terms.updates_to_terms }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-5" id="contact-us">
+            <div class="col-12">
+                <h2 class="my-4">{{ terms.contact_us_title }}</h2>
+                <p>{{ terms.contact_us_paragraph }}</p>
+                <a href="mailto:{{ terms.contact_us_details }}" class="hover-underline text-primary">
+                    <i class="fa-solid fa-envelope me-2"></i> {{ terms.contact_us_details }}
+                </a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section, .row[id]");
+        const navLinks = document.querySelectorAll(".toc a");
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+            const id = entry.target.getAttribute("id");
+            const link = document.querySelector(`.toc a[href="#${id}"]`);
+            if (entry.isIntersecting) {
+                navLinks.forEach(a => a.classList.remove("active"));
+                if (link) link.classList.add("active");
+            }
+            });
+        }, {
+            threshold: 1
+        });
+        sections.forEach(section => observer.observe(section));
+    });
+</script>
+{% endblock %}

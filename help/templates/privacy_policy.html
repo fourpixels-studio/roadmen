@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<header class="bg-light-primary">
+    <div class="container py-5 px-3">
+        <div class="justify-content-start row">
+            <div class="col-12">
+                <h1 class="fw-700 mb-3">{{ privacy_policy.page_title }}</h1>
+                <p class="fw-600">Last Update: {{ privacy_policy.effective_date }}</p>
+                <p>{{ privacy_policy.intro_paragraph|safe }}</p>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container my-4 px-3">
+    <div class="row g-3 justify-content-between">
+        <aside class="col-sm-12 col-lg-3 pt-4 order-lg-2">
+            <div class="position-sticky" style="top: 6rem;">
+                <h4 class="mb-3">Table of Contents</h4>
+                <ol class="list-styled text-muted small toc">
+                    <li><a href="#info-collect" class="text-muted hover-underline">Information We Collect</a></li>
+                    <li><a href="#how-use" class="text-muted hover-underline">How We Use Your Information</a></li>
+                    <li><a href="#payment-refund" class="text-muted hover-underline">Payment and Refund Policy</a></li>
+                    <li><a href="#membership-verification" class="text-muted hover-underline">Membership Verification</a></li>
+                    <li><a href="#data-security" class="text-muted hover-underline">Data Security</a></li>
+                    <li><a href="#cookies-analytics" class="text-muted hover-underline">Use of Cookies and Analytics</a></li>
+                    <li><a href="#sharing-info" class="text-muted hover-underline">Sharing of Information</a></li>
+                    <li><a href="#your-rights" class="text-muted hover-underline">Your Rights</a></li>
+                    <li><a href="#contact-us" class="text-muted hover-underline">Contact Us</a></li>
+                </ol>
+            </div>
+        </aside>
+        <div class="col-sm-12 col-lg-9 order-lg-1">
+            <div class="row py-5" id="info-collect">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.information_we_collect_title }}</h2>
+                    <p>{{ privacy_policy.information_we_collect_intro }}</p>
+                    <ul>
+                        {% for item in collected_info_list %}
+                        <li class="mb-1">{{ item|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="how-use">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.how_we_use_your_information_title }}</h2>
+                    <p>{{ privacy_policy.how_we_use_your_information_intro }}</p>
+                    <ul>
+                        {% for item in how_info_is_used_list %}
+                        <li class="mb-1">{{ item|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p>{{ privacy_policy.how_we_use_your_information_outro }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="payment-refund">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.payment_and_refund_policy_title }}</h2>
+                    <p>{{ privacy_policy.payment_and_refund_policy_paragraph|linebreaks }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="membership-verification">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.membership_verification_title }}</h2>
+                    <p>{{ privacy_policy.membership_verification_paragraph|linebreaks }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="data-security">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.data_security_title }}</h2>
+                    <p>{{ privacy_policy.data_security_paragraph|linebreaks }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="cookies-analytics">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.use_of_cookies_and_analytics_title }}</h2>
+                    <p>{{ privacy_policy.use_of_cookies_and_analytics_paragraph|linebreaks }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="sharing-info">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.sharing_of_information_title }}</h2>
+                    <p>{{ privacy_policy.sharing_of_information_intro }}</p>
+                    <ul>
+                        {% for item in sharing_info_list %}
+                        <li class="mb-1">{{ item|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p>{{ privacy_policy.sharing_of_information_outro }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="your-rights">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.your_rights_title }}</h2>
+                    <p>{{ privacy_policy.your_rights_intro }}</p>
+                    <ul>
+                        {% for item in your_rights_list %}
+                        <li class="mb-1">{{ item|safe }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-5" id="contact-us">
+                <div class="col-12">
+                    <h2 class="my-4">{{ privacy_policy.contact_us_title }}</h2>
+                    <p>{{ privacy_policy.contact_us_paragraph }}</p>
+                    <a href="mailto:{{ privacy_policy.contact_us_details }}" class="hover-underline text-primary">
+                        <i class="fa-solid fa-envelope me-2"></i> {{ privacy_policy.contact_us_details }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section, .row[id]");
+        const navLinks = document.querySelectorAll(".toc a");
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+            const id = entry.target.getAttribute("id");
+            const link = document.querySelector(`.toc a[href="#${id}"]`);
+            if (entry.isIntersecting) {
+                navLinks.forEach(a => a.classList.remove("active"));
+                if (link) link.classList.add("active");
+            }
+            });
+        }, {
+            threshold: 1
+        });
+        sections.forEach(section => observer.observe(section));
+    });
+</script>
+{% endblock %}
